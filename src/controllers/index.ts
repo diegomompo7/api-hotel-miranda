@@ -2,6 +2,8 @@ import express, { NextFunction,  Response, Request,  ErrorRequestHandler } from 
 import { bookingRouter } from "./booking";
 import { roomRouter } from "./room";
 import { contactRouter } from "./contact";
+import { userRouter } from "./users";
+import { loginRouter } from "./login";
 
 export const configureRoutes = (app: any): any => {
     // Rutas
@@ -15,6 +17,8 @@ export const configureRoutes = (app: any): any => {
     app.use("/bookings", bookingRouter);
     app.use("/rooms", roomRouter);
     app.use("/contact", contactRouter);
+    app.use("/users", userRouter);
+    app.use("/login", loginRouter);
 
 
   
