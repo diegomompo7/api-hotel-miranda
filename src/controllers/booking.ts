@@ -1,10 +1,16 @@
 import express, {Request, Response} from "express";
-import { deleteBookings, getBookings, patchBookings, postBookings } from "../services/booking..ts";
+import { deleteBookings, getBookings, getBookingsId, patchBookings, postBookings } from "../services/booking..ts";
 
 export const bookingRouter = express.Router();
 
 bookingRouter.get("/", async (req: Request, res: Response) => {
     const data = await getBookings()
+    res.send(data);
+});
+
+bookingRouter.get("/:id", async (req: Request, res: Response) => {
+    const id = req.params.id
+    const data = await getBookingsId(id)
     res.send(data);
 });
 

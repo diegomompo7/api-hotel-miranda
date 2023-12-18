@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import { postLogin } from "../services/login.ts";
-import { generateToken } from "../middleware/auth.ts";
+import { generateToken } from "../middleware/token.ts";
 
 export const loginRouter = express.Router();
 

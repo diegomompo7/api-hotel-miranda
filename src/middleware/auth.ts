@@ -1,32 +1,26 @@
-import { UserInterface } from "../model/UserInterface";
-import users from "../data/users.json";
-
+import { NextFunction, Response, Request } from "express";
 const jwt = require('jsonwebtoken');
-const dotenv = require("dotenv");
-dotenv.config();
 
-export const generateToken = (email: any): string => {
-  if (!email) {
-    throw new Error("Email missing");
+export interface AuthenticatedRequest extends Request { 
+    user?: any;
   }
 
-  const idUser: UserInterface = users.find((user: UserInterface) => user.email === email.email)!;
-  console.log(idUser);
+export const isAuth = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+  
+    if (token == null) return res.sendStatus(401)
+  
+    jwt.verify(token, process.env.JWT_SECRET as string, (err: any, user: any) => {
+      console.log(err)
+  
+      if (err) return res.sendStatus(403)
 
-  const payload = {
-    userId: idUser.id,
-    userEmail: email,
-  };
+      console.log(user)
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: "1d" });
-  return token;
-};
-
-export const verifyToken = (token: string): any => {
-  if (!token) {
-    throw new Error("Token is missing");
-  }
-
-  const result = jwt.verify(token, process.env.JWT_SECRET as string);
-  return result;
+  
+      req.user = user
+  
+      next()
+    })
 };
