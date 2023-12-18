@@ -1,5 +1,7 @@
-import express, { type NextFunction, type Response, type Request, type ErrorRequestHandler } from "express";
+import express, { NextFunction,  Response, Request,  ErrorRequestHandler } from "express";
 import { bookingRouter } from "./booking";
+import { roomRouter } from "./room";
+import { contactRouter } from "./contact";
 
 export const configureRoutes = (app: any): any => {
     // Rutas
@@ -11,7 +13,9 @@ export const configureRoutes = (app: any): any => {
   
     // Usamos las rutas
     app.use("/bookings", bookingRouter);
-    app.use("/rooms", bookingRouter);
+    app.use("/rooms", roomRouter);
+    app.use("/contact", contactRouter);
+
 
   
     return app;
