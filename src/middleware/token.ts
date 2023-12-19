@@ -18,8 +18,9 @@ export const generateToken = (email: any): string => {
     userEmail: email,
   };
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: "1d" });
+  const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn : '24h'} );
   return token;
+  
 };
 
 export const verifyToken = (token: string): any => {
@@ -27,6 +28,7 @@ export const verifyToken = (token: string): any => {
     throw new Error("Token is missing");
   }
 
-  const result = jwt.verify(token, process.env.JWT_SECRET as string);
-  return result;
-};
+    const result = jwt.verify(token, process.env.JWT_SECRET);
+
+    return result;
+};  

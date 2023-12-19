@@ -1,5 +1,7 @@
 import { NextFunction, Response, Request } from "express";
-const jwt = require('jsonwebtoken');
+import { verifyToken } from "./token";
+import { UserInterface } from "../model/UserInterface";
+const users = require('../data/users.json');
 
 export interface AuthenticatedRequest extends Request { 
     user?: any;
@@ -7,20 +9,16 @@ export interface AuthenticatedRequest extends Request {
 
 export const isAuth = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
+    const token = req.headers.authorization?.replace("Bearer ", "");
   
     if (token == null) return res.sendStatus(401)
   
-    jwt.verify(token, process.env.JWT_SECRET as string, (err: any, user: any) => {
-      console.log(err)
-  
-      if (err) return res.sendStatus(403)
+    const decodedInfo = verifyToken(token);
+    console.log(decodedInfo)
 
-      console.log(user)
+    const userLogged = users.find((user: UserInterface) => user.id === decodedInfo.userId);
 
-  
-      req.user = user
-  
-      next()
-    })
-};
+     req.user = userLogged
+     next()
+
+  } 
