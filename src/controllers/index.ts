@@ -5,22 +5,16 @@ import { contactRouter } from "./contact";
 import { userRouter } from "./users";
 import { loginRouter } from "./login";
 import { isAuth } from "../middleware/auth";
-import { verifyToken } from "../middleware/token";
-
-interface AuthenticatedRequest extends Request {
-  user?: any;
-}
+import { getContacts } from "../services/contact";
 
 export const configureRoutes = (app: any): any => {
     // Rutas
     const router = express.Router();
   
 
-    router.get("/", isAuth, (req: AuthenticatedRequest, res: Response) => {
-      const user = req.user;
-      console.log(user);
-      res.json({ user });
-      
+    router.get("/", async (req:Request, res: Response) => {
+      const data = await getContacts()
+        res.send(data);
     });
 
     router.get("*", (req: Request, res: Response) => {
@@ -28,12 +22,12 @@ export const configureRoutes = (app: any): any => {
     });
   
     // Usamos las rutas
-    app.use("/bookings", bookingRouter);
-    app.use("/rooms", roomRouter);
-    app.use("/contact", contactRouter);
-    app.use("/users", userRouter);
+    app.use("/bookings", isAuth, bookingRouter);
+    app.use("/rooms", isAuth, roomRouter);
+    app.use("/contact", isAuth, contactRouter);
+    app.use("/users", isAuth, userRouter);
     app.use("/login", loginRouter);
-    app.use("/", router);
+    app.use("/", isAuth, router);
 
 
   

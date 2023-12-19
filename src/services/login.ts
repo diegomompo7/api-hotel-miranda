@@ -6,4 +6,4 @@ export const postLogin = async(email: any, password:any) :Promise<boolean> => {
 
         return userCheck ? true : false;
 }
-  
+   
