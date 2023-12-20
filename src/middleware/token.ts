@@ -19,7 +19,6 @@ export const generateToken = (email: any): string => {
   };
 
   const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn : '24h'} );
-  console.log(token)
   return token;
   
 };

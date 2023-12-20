@@ -7,6 +7,10 @@ import { loginRouter } from "./login";
 import { isAuth } from "../middleware/auth";
 import { getContacts } from "../services/contact";
 
+interface AuthenticatedRequest extends Request {
+  user?: any;
+}
+
 export const configureRoutes = (app: any): any => {
     // Rutas
     const router = express.Router();
@@ -15,6 +19,12 @@ export const configureRoutes = (app: any): any => {
     router.get("/", async (req:Request, res: Response) => {
       const data = await getContacts()
         res.send(data);
+    });
+
+    router.get("/header", isAuth, (req: AuthenticatedRequest, res: Response) => {
+      const user = req.user;
+      console.log(user);
+      res.json({ photo: user.photo, fullName: user.fullName, email: user.email});
     });
 
     router.get("*", (req: Request, res: Response) => {
