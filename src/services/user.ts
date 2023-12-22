@@ -6,12 +6,16 @@ export const getUsers = async() :Promise<UserInterface[]> => {
     return users
 }
 
-export const postUsers = async() :Promise<Object[]> => {
-    return [{success: "user create successfully"}]
+export const getUserId = async(id: string) :Promise<Object> => {
+    return users.find((user) => user.id === parseInt(id))!
 }
-export const patchUsers = async() :Promise<Object[]> => {
-    return [{success: "user update successfully"}]
+
+export const postUsers = async() :Promise<void> => {
+
 }
-export const deleteUsers = async() :Promise<Object[]> => {
-    return [{success: "user deleted successfully"}]
+export const patchUsers = async() :Promise<void> => {
+
+}
+export const deleteUsers = async() :Promise<void> => {
+
 }

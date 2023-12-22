@@ -22,19 +22,12 @@ export const isAuth = async (
 
     try {
       const decodedInfo = verifyToken(token);
-
-      const userLogged = users.find(
-        (user: UserInterface) => user.id === decodedInfo.userId
-      );
-
-      req.user = userLogged;
+      req.user = decodedInfo;
       next();
     } catch (error) {
-      console.error("JWT Verification Error:", error);
       return res.status(403).json({ message: "Forbidden: Invalid Token" });
     }
   } catch (error) {
-    console.error("JWT Verification Error:", error);
     return res
       .status(401)
       .json({ message: "You are not logged. Pleas logged to see the apge" });

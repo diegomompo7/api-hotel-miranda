@@ -9,12 +9,11 @@ export const getBookingsId = async(id: string) :Promise<Object> => {
         return booking.find((booking) => booking.id === parseInt(id))!
 }
 
-export const postBookings = async() :Promise<Object[]> => {
-    return [{success: "booking create successfully"}]
+export const postBookings = async()  :Promise<void>  => {
 }
-export const patchBookings = async() :Promise<Object[]> => {
-    return [{success: "booking update successfully"}]
+export const patchBookings = async() :Promise<void> => {
+    
 }
-export const deleteBookings = async() :Promise<Object[]> => {
-    return [{success: "booking deleted successfully"}]
+export const deleteBookings = async()  :Promise<void>  => {
+  
 }

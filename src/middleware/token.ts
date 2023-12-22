@@ -11,14 +11,13 @@ export const generateToken = (email: any): string => {
   }
 
   const idUser: UserInterface = users.find((user: UserInterface) => user.email === email.email)!;
-  console.log(idUser);
 
   const payload = {
     userId: idUser.id,
     userEmail: email,
   };
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn : '24h'} );
+  const token = jwt.sign(payload, process.env.JWT_SECRET);
   return token;
   
 };
@@ -27,9 +26,12 @@ export const verifyToken = (token: string): any => {
   if (!token) {
     throw new Error("Token is missing");
   }
-  
 
     const result = jwt.verify(token, process.env.JWT_SECRET);
 
-    return result;
+    const userLogged = users.find(
+      (user: UserInterface) => user.id === result.userId
+    );
+
+    return userLogged;
 };   
