@@ -6,6 +6,7 @@ import { userRouter } from "./users";
 import { loginRouter } from "./login";
 import { isAuth } from "../middleware/auth";
 import { getContacts } from "../services/contact";
+import { publicRouter } from "./public";
 
 interface AuthenticatedRequest extends Request {
   user?: any;
@@ -18,12 +19,11 @@ export const configureRoutes = (app: any): any => {
 
     router.get("/", async (req:Request, res: Response) => {
       const data = await getContacts()
-        res.send(data);
+        res.json(data);
     });
 
     router.get("/header", isAuth, (req: AuthenticatedRequest, res: Response) => {
       const user = req.user;
-      console.log(user);
       res.json({ photo: user.photo, fullName: user.fullName, email: user.email});
     });
 
@@ -37,7 +37,9 @@ export const configureRoutes = (app: any): any => {
     app.use("/contact", isAuth, contactRouter);
     app.use("/users", isAuth, userRouter);
     app.use("/login", loginRouter);
+    app.use("/public", publicRouter);
     app.use("/", isAuth, router);
+
 
 
   

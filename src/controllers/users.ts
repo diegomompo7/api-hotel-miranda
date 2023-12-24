@@ -1,26 +1,32 @@
 import express, {Request, Response} from "express";
-import { deleteUsers, getUsers, patchUsers, postUsers } from "../services/user.ts";
+import { deleteUsers, getUserId, getUsers, patchUsers, postUsers } from "../services/user.ts";
 
 export const userRouter = express.Router();
 
 userRouter.get("/", async (req: Request, res: Response) => {
     const data = await getUsers()
-    res.send(data);
+    res.json(data);
+});
+
+userRouter.get("/:id", async (req: Request, res: Response) => {
+    const id = req.params.id
+    const data = await getUserId(id)
+    res.json(data);
 });
 
 userRouter.post("/", async (req: Request, res: Response) => {
     const data = await postUsers()
-    res.send(data);
+    res.json( [{success: "user created successfully"}]);
 });
 
 
 userRouter.patch("/:id", async (req: Request, res: Response) => {
     const data = await patchUsers()
-    res.send(data);
+    res.json( [{success: "user updated successfully"}]);
 });
 
 
 userRouter.delete("/:id", async (req: Request, res: Response) => {
     const data = await deleteUsers()
-    res.send(data);
+    res.json( [{success: "user deleted successfully"}]);
 });
