@@ -1,5 +1,6 @@
-export interface ContactInterface {
-  id: number;
+import mongoose, {Document, Schema } from "mongoose";
+
+export interface IContactCreate {
   userImg: string;
   name: string;
   surname: string;
@@ -11,3 +12,20 @@ export interface ContactInterface {
   stars: number;
   is_archived: boolean;
 }
+
+export type IContact = IContactCreate & Document;
+
+const contactSchema = new Schema({
+  userImg: {type: String, required: true},
+  name: {type: String, required: true},
+  surname: {type: String, required: true},
+  email: {type: String, required: true},
+  phone: {type: Number, required: true},
+  date: {type: Date, default: Date.now, required: true},
+  subject: {type: String, required: true},
+  message: {type: String, required: true},
+  stars: {type: Number, required: true},
+  is_boolean: {type: Boolean},
+})
+
+export const Contact = mongoose.model<IContactCreate>("Contact", contactSchema, "contacts");

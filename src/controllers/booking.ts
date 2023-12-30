@@ -4,18 +4,23 @@ import { deleteBookings, getBookings, getBookingsId, patchBookings, postBookings
 export const bookingRouter = express.Router();
 
 bookingRouter.get("/", async (req: Request, res: Response) => {
-    const data = await getBookings()
-    res.json(data);
+    const bookings = await getBookings()
+    res.json(bookings);
 });
 
 bookingRouter.get("/:id", async (req: Request, res: Response) => {
     const id = req.params.id
-    const data = await getBookingsId(id)
-    res.json(data);
+    const booking = await getBookingsId(id)
+    
+    if (booking) {
+        res.json(booking);
+      } else {
+        res.status(404).json({});
+      }
 });
 
 bookingRouter.post("/", async (req: Request, res: Response) => {
-    const data = await postBookings()
+    const booking = await postBookings(req.body)
     res.json( [{success: "booking create successfully"}]);
 });
 
@@ -27,6 +32,7 @@ bookingRouter.patch("/:id", async (req: Request, res: Response) => {
 
 
 bookingRouter.delete("/:id", async (req: Request, res: Response) => {
+    const id = req.params.id;
     const data = await deleteBookings()
     res.json( [{success: "booking deleted successfully"}]);
 });
