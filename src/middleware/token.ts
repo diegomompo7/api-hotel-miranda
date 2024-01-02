@@ -25,11 +25,12 @@ export const generateToken = async (emailUser: any):  Promise<string> => {
 export const verifyToken = async (token: string):   Promise<any> => {
   if (!token) {
     throw new Error("Token is missing");
-  }
+  } else{
 
     const result = jwt.verify(token, process.env.JWT_SECRET);
 
-    const userLogged = await User.findOne({id : result.userId})
+    const userLogged = await User.findById(result.userId)
 
     return userLogged;
-};   
+  }
+};

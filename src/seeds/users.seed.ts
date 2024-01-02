@@ -1,21 +1,8 @@
 import mongoose from "mongoose";
-import { User } from "../model/UserInterface";
+import { IUser, IUserCreate, User } from "../model/UserInterface";
 import { mongoConnect } from "../mongo-repository";
 import { faker } from '@faker-js/faker/locale/es';
 
-/*
-export interface IUserCreate {
-  photo: string;
-  fullName: string;
-  job: string;
-  email: string;
-  phone: string;
-  startDate: string;
-  descriptionJob: string;
-  status: string;
-  password: string;
-}
-*/
 async function seedDB() {
     try {
         await mongoConnect()
@@ -24,15 +11,27 @@ async function seedDB() {
         await User.collection.drop();
         console.log("Users deleted successfully");
 
+        for (let i = 0; i < 15; i++) {
+            const fullName = faker.person.fullName(); // Rowan Nikolaus
+            const firstName = fullName.split(" ")[0].toLowerCase()
+            const lastName = fullName.split(" ")[1].toLowerCase()
+            const email = faker.internet.email({firstName: firstName, lastName: lastName}); 
+            const job= faker.helpers.arrayElement(['Manager', 'Recepcionist', 'Room Service'])
 
-        const avatar = faker.internet.avatar(); // Rowan Nikolaus
-        const randomName = faker.person.fullName(); // Rowan Nikolaus
-        const firstName = randomName.split(" ")[0].toLowerCase()
-        const lastName = randomName.split(" ")[1].toLowerCase()
-        const job= faker.helpers.arrayElement(['Manager', 'Recepcionist', 'Room Service'])
-        const randomEmail = faker.internet.email({firstName: firstName, lastName: lastName}); // Kassandra.Haley@erich.biz
-        const phone = faker.phone.number()
-        const startDate = 
+            const document = new User({
+                photo: faker.internet.avatar(),
+                fullName: fullName,
+                job: job,
+                email: email,
+                phone: faker.phone.number().replace(/\D/g, ''),
+                startDate: faker.date.past({ years: 1, refDate: '2024-01-02T00:00:00.000Z' }).toISOString().substring(0, 10),
+                descriptionJob:job,
+                status: faker.helpers.arrayElement(['ACTIVE', 'INACTIVE']),
+                password: faker.internet.password({memorable: true }),
+            })
+            await document.save();
+          }
+
 
 
 

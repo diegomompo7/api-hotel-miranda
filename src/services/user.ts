@@ -17,9 +17,10 @@ export const postUser = async(userData: IUserCreate): Promise<Document<IUser>>  
 
 }
 export const patchUser = async(id: string, userData: any): Promise<Document<IUser> | null> => {
+    console.log(id)
     return await User.findByIdAndUpdate(id, userData, { new: true, runValidators: true })
 }
 
-export const deleteUser = async(id:string): Promise<IUser>  => {
-    return await User.findByIdAndDelete(id).populate(["user"])
+export const deleteUser = async(id:string): Promise<Document<IUser> | null>  => {
+    return await User.findByIdAndDelete(id).lean()
 }

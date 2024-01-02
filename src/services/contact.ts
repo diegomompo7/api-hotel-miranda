@@ -21,5 +21,5 @@ export const patchContact = async(id: string, contactData: any): Promise<Documen
 }
 
 export const deleteContact = async(id:string): Promise<IContact>  => {
-    return await Contact.findByIdAndDelete(id).populate(["room"])
+    return await Contact.findByIdAndDelete(id).lean()
 }

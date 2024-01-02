@@ -15,7 +15,7 @@ contactRouter.get("/:id", async (req: Request, res: Response) => {
     if (contact) {
         res.json(contact);
       } else {
-        res.status(404).json({});
+        res.status(404).json({"message": "Contact not found"});
       }
 });
 
@@ -29,7 +29,7 @@ contactRouter.patch("/:id", async (req: Request, res: Response) => {
     const id = req.params.id
     const data = await patchContact(id, req.body)
     if (data) {
-        res.json( [{success: "contact updated successfully"}]);
+      res.status(404).json({"message": "Contact not found"});
       } else {
         res.status(404).json({});
     }
@@ -42,6 +42,6 @@ contactRouter.delete("/:id", async (req: Request, res: Response) => {
     if (data) {
         res.json( [{success: "contact deleted successfully"}]);
       } else {
-        res.status(404).json({});
+        res.status(404).json({"message": "Contact not found"});
     }
 });

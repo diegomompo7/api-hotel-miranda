@@ -25,7 +25,7 @@ const contactSchema = new Schema({
   subject: {type: String, required: true},
   message: {type: String, required: true},
   stars: {type: Number, required: true},
-  is_boolean: {type: Boolean},
+  is_archived: {type: Boolean},
 })
 
 export const Contact = mongoose.model<IContactCreate>("Contact", contactSchema, "contacts");

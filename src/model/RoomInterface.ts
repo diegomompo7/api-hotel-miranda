@@ -12,6 +12,7 @@ export interface IRoomCreate {
   amenities: string[];
   status: string;
 }
+
 export type IRoom = IRoomCreate & Document;
 
 const bookingSchema = new Schema({

@@ -21,5 +21,5 @@ export const patchRoom = async(id: string, roomData: any): Promise<Document<IRoo
 }
 
 export const deleteRoom = async(id:string): Promise<IRoom>  => {
-    return await Room.findByIdAndDelete(id).populate(["room"])
+    return await Room.findByIdAndDelete(id).lean()
 }

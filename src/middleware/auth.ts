@@ -16,10 +16,10 @@ export const isAuth = async (
     if (token == null)
       return res
         .status(401)
-        .json({ message: "You are not logged. Pleas logged to see the apge" });
+        .json({ message: "You are not logged. Pleas logged to see the page" });
 
     try {
-      const decodedInfo = verifyToken(token);
+      const decodedInfo = await verifyToken(token);
       req.user = decodedInfo;
       next();
     } catch (error) {
@@ -28,6 +28,6 @@ export const isAuth = async (
   } catch (error) {
     return res
       .status(401)
-      .json({ message: "You are not logged. Pleas logged to see the apge" });
+      .json({ message: "You are not logged. Pleas logged to see the page" });
   }
 };

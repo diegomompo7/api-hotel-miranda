@@ -15,7 +15,7 @@ usersRouter.get("/:id", async (req: Request, res: Response) => {
     if (users) {
         res.json(users);
       } else {
-        res.status(404).json({});
+        res.status(404).json({"message": "User not found"});
       }
 });
 
@@ -31,7 +31,7 @@ usersRouter.patch("/:id", async (req: Request, res: Response) => {
     if (data) {
         res.json( [{success: "users updated successfully"}]);
       } else {
-        res.status(404).json({});
+        res.status(404).json({"message": "User not found"});
     }
 });
 
@@ -42,6 +42,6 @@ usersRouter.delete("/:id", async (req: Request, res: Response) => {
     if (data) {
         res.json( [{success: "users deleted successfully"}]);
       } else {
-        res.status(404).json({});
+        res.status(404).json({"message": "User not found"});
     }
 });

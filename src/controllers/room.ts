@@ -15,7 +15,7 @@ roomRouter.get("/:id", async (req: Request, res: Response) => {
     if (room) {
         res.json(room);
       } else {
-        res.status(404).json({});
+        res.status(404).json({"message": "Room not found"});
       }
 });
 
@@ -31,7 +31,7 @@ roomRouter.patch("/:id", async (req: Request, res: Response) => {
     if (data) {
         res.json( [{success: "room updated successfully"}]);
       } else {
-        res.status(404).json({});
+        res.status(404).json({"message": "Room not found"});
     }
 });
 
@@ -42,6 +42,6 @@ roomRouter.delete("/:id", async (req: Request, res: Response) => {
     if (data) {
         res.json( [{success: "room deleted successfully"}]);
       } else {
-        res.status(404).json({});
+        res.status(404).json({"message": "Room not found"});
     }
 });
