@@ -1,4 +1,4 @@
-import { Rooms, IRoom } from "./RoomInterface";
+import { Room, IRoom } from "./RoomInterface";
 import mongoose, {Document, Schema } from "mongoose";
 
 export interface IBookingCreate {
@@ -16,14 +16,14 @@ export type IBooking = IBookingCreate & Document;
 
 const bookingSchema = new Schema({
   name: {type: String, required: true},
-  orderDate: Date.now,
+  orderDate: { type: Date, default: Date.now },
   check_in: {type: Date, required: true},
   hour_in: {type: String, required: true},
   check_out: {type: Date, required: true},
   hour_out: {type: String, required: true},
   room: {
     type: Schema.Types.ObjectId,
-    ref: Rooms,
+    ref: Room,
     required: true,
 
   },

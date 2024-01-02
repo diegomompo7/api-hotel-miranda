@@ -27,4 +27,4 @@ const bookingSchema = new Schema({
   status: {type: String, required: true},
 })
 
-export const Rooms = mongoose.model<IRoomCreate>("Rooms", bookingSchema, "rooms");
+export const Room = mongoose.model<IRoomCreate>("Rooms", bookingSchema, "rooms");

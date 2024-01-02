@@ -1,7 +1,5 @@
 import { NextFunction, Response, Request } from "express";
 import { verifyToken } from "./token";
-import { UserInterface } from "../model/UserInterface";
-const users = require("../data/users.json");
 
 export interface AuthenticatedRequest extends Request {
   user?: any;

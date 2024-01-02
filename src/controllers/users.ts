@@ -1,32 +1,47 @@
 import express, {Request, Response} from "express";
-import { deleteUsers, getUserId, getUsers, patchUsers, postUsers } from "../services/user.ts";
+import { deleteUser, getUsers, getUsersId, patchUser, postUser } from "../services/user.ts";
 
-export const userRouter = express.Router();
+export const usersRouter = express.Router();
 
-userRouter.get("/", async (req: Request, res: Response) => {
-    const data = await getUsers()
-    res.json(data);
+usersRouter.get("/", async (req: Request, res: Response) => {
+    const users = await getUsers()
+    res.json(users);
 });
 
-userRouter.get("/:id", async (req: Request, res: Response) => {
+usersRouter.get("/:id", async (req: Request, res: Response) => {
     const id = req.params.id
-    const data = await getUserId(id)
-    res.json(data);
+    const users = await getUsersId(id)
+    
+    if (users) {
+        res.json(users);
+      } else {
+        res.status(404).json({});
+      }
 });
 
-userRouter.post("/", async (req: Request, res: Response) => {
-    const data = await postUsers()
-    res.json( [{success: "user created successfully"}]);
+usersRouter.post("/", async (req: Request, res: Response) => {
+    const users = await postUser(req.body)
+    res.json( [{success: "users create successfully"}]);
 });
 
 
-userRouter.patch("/:id", async (req: Request, res: Response) => {
-    const data = await patchUsers()
-    res.json( [{success: "user updated successfully"}]);
+usersRouter.patch("/:id", async (req: Request, res: Response) => {
+    const id = req.params.id
+    const data = await patchUser(id, req.body)
+    if (data) {
+        res.json( [{success: "users updated successfully"}]);
+      } else {
+        res.status(404).json({});
+    }
 });
 
 
-userRouter.delete("/:id", async (req: Request, res: Response) => {
-    const data = await deleteUsers()
-    res.json( [{success: "user deleted successfully"}]);
+usersRouter.delete("/:id", async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const data = await deleteUser(id)
+    if (data) {
+        res.json( [{success: "users deleted successfully"}]);
+      } else {
+        res.status(404).json({});
+    }
 });

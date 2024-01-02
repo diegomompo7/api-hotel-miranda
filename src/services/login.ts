@@ -1,10 +1,8 @@
-import users from '../data/users.json';
-import { UserInterface } from '../model/UserInterface';
+
+import { User, IUser} from '../model/UserInterface';
 const bcrypt = require("bcrypt")
 
-export const postLogin = async(email: any, password:any) :Promise<UserInterface | undefined> => {
-        const userCheck: UserInterface | undefined = users.find(user => user.email === email && bcrypt.compare(user.password,password));
-
-        return userCheck || undefined
+export const postLogin = async(userLogin: any) :Promise<IUser | null> => {
+        return await User.findOne({email: userLogin.email, password: userLogin.password}).exec()
 }
    

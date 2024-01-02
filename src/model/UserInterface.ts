@@ -26,4 +26,4 @@ const userSchema = new Schema({
   password: {type: String, required: true},
 })
 
-export const Contact = mongoose.model<IUserCreate>("User", userSchema, "users");
+export const User = mongoose.model<IUserCreate>("User", userSchema, "users");

@@ -10,16 +10,16 @@ export const getBookingsId = async(id: string) :Promise<Document<IBooking> | nul
     return await Booking.findById(id).populate(["room"])
 }
 
-export const postBookings = async(bookingData: IBookingCreate): Promise<Document<IBooking>>  => {
+export const postBooking = async(bookingData: IBookingCreate): Promise<Document<IBooking>>  => {
     const booking = new Booking(bookingData)
     const document: Document<IBooking> = (await booking.save()) as any
     return document
 
 }
-export const patchBookings = async(id: string, bookingData: any): Promise<Document<IBooking> | null> => {
+export const patchBooking = async(id: string, bookingData: any): Promise<Document<IBooking> | null> => {
     return await Booking.findByIdAndUpdate(id, bookingData, { new: true, runValidators: true })
 }
 
-export const deleteBookings = async(id:string): Promise<Document<IBooking> | null>  => {
-    return await Booking.findByIdAndDelete(id)
+export const deleteBooking = async(id:string): Promise<IBooking>  => {
+    return await Booking.findByIdAndDelete(id).populate(["room"])
 }

@@ -8,7 +8,7 @@ export const loginRouter = express.Router();
 
 
 loginRouter.post("/", async (req: Request, res: Response) => {
-    const login = await postLogin(req.body.email ,  req.body.password)
+    const login = await postLogin(req.body)
 
     if(login){
         const token = generateToken({ email: req.body.email });

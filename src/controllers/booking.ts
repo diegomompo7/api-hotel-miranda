@@ -1,5 +1,5 @@
 import express, {Request, Response} from "express";
-import { deleteBookings, getBookings, getBookingsId, patchBookings, postBookings } from "../services/booking..ts";
+import { deleteBooking, getBookings, getBookingsId, patchBooking, postBooking } from "../services/booking.ts";
 
 export const bookingRouter = express.Router();
 
@@ -20,19 +20,28 @@ bookingRouter.get("/:id", async (req: Request, res: Response) => {
 });
 
 bookingRouter.post("/", async (req: Request, res: Response) => {
-    const booking = await postBookings(req.body)
+    const booking = await postBooking(req.body)
     res.json( [{success: "booking create successfully"}]);
 });
 
 
 bookingRouter.patch("/:id", async (req: Request, res: Response) => {
-    const data = await patchBookings()
-    res.json( [{success: "booking update successfully"}]);
+    const id = req.params.id
+    const data = await patchBooking(id, req.body)
+    if (data) {
+        res.json( [{success: "booking updated successfully"}]);
+      } else {
+        res.status(404).json({});
+    }
 });
 
 
 bookingRouter.delete("/:id", async (req: Request, res: Response) => {
     const id = req.params.id;
-    const data = await deleteBookings()
-    res.json( [{success: "booking deleted successfully"}]);
+    const data = await deleteBooking(id)
+    if (data) {
+        res.json( [{success: "booking deleted successfully"}]);
+      } else {
+        res.status(404).json({});
+    }
 });

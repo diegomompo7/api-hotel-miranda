@@ -1,32 +1,47 @@
 import express, {Request, Response} from "express";
-import { deleteContacts, getContactId, getContacts, patchContacts, postContacts } from "../services/contact.ts";
+import { deleteContact, getContacts, getContactsId, patchContact, postContact } from "../services/contact.ts";
 
 export const contactRouter = express.Router();
 
 contactRouter.get("/", async (req: Request, res: Response) => {
-    const data = await getContacts()
-    res.json(data);
+    const contacts = await getContacts()
+    res.json(contacts);
 });
 
 contactRouter.get("/:id", async (req: Request, res: Response) => {
     const id = req.params.id
-    const data = await getContactId(id)
-    res.json(data);
+    const contact = await getContactsId(id)
+    
+    if (contact) {
+        res.json(contact);
+      } else {
+        res.status(404).json({});
+      }
 });
 
 contactRouter.post("/", async (req: Request, res: Response) => {
-    const data = await postContacts()
-    res.json([{success: "contact created successfully"}]);
+    const contact = await postContact(req.body)
+    res.json( [{success: "contact create successfully"}]);
 });
 
 
 contactRouter.patch("/:id", async (req: Request, res: Response) => {
-    const data = await patchContacts()
-    res.json([{success: "contact updated successfully"}]);
+    const id = req.params.id
+    const data = await patchContact(id, req.body)
+    if (data) {
+        res.json( [{success: "contact updated successfully"}]);
+      } else {
+        res.status(404).json({});
+    }
 });
 
 
 contactRouter.delete("/:id", async (req: Request, res: Response) => {
-    const data = await deleteContacts()
-    res.json([{success: "contact deleted successfully"}]);
+    const id = req.params.id;
+    const data = await deleteContact(id)
+    if (data) {
+        res.json( [{success: "contact deleted successfully"}]);
+      } else {
+        res.status(404).json({});
+    }
 });
