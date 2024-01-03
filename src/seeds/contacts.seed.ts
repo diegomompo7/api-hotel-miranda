@@ -12,12 +12,12 @@ async function seedDB() {
         console.log("Contacts deleted successfully");
 
         for (let i = 0; i < 15; i++) {
-            const firstName = faker.person.firstName(); // Rowan Nikolaus
+            const firstName = faker.person.firstName()
             const lastName = faker.person.lastName();
             const email = faker.internet.email({firstName: firstName, lastName: lastName}); 
 
             const document = new Contact({
-                userImg: faker.internet.avatar(),
+                userImg: faker.image.avatar(),
                 name: firstName,
                 surname: lastName,
                 email: email,
@@ -30,8 +30,6 @@ async function seedDB() {
             })
             await document.save();
           }
-
-
 
 
     } catch (err) {

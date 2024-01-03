@@ -1,5 +1,7 @@
 import { Document } from "mongoose"
 import { Booking, IBooking, IBookingCreate } from "../model/BookingInterface"
+import { Db } from "mongodb"
+import { Room} from "../model/RoomInterface"
 
 
 export const getBookings = async() :Promise<IBooking[]> => {
@@ -20,6 +22,6 @@ export const patchBooking = async(id: string, bookingData: any): Promise<Documen
     return await Booking.findByIdAndUpdate(id, bookingData, { new: true, runValidators: true })
 }
 
-export const deleteBooking = async(id:string): Promise<IBooking>  => {
-    return await Booking.findByIdAndDelete(id).populate(["room"])
+export const deleteBooking = async(id:string): Promise<Document<IBooking> | null>  => {
+    return await Booking.findByIdAndDelete(id).lean()
 }
