@@ -8,8 +8,6 @@ import { isAuth } from "../middleware/auth";
 import { getContacts } from "../services/contact";
 import { publicRouter } from "./public";
 import { mongoConnect} from "../mongo-repository";
-import { Booking } from "../model/BookingInterface";
-import { Room } from "../model/RoomInterface";
 interface AuthenticatedRequest extends Request {
   user?: any;
 }
@@ -41,8 +39,6 @@ export const configureRoutes = async (app: any): Promise<any> => {
     app.use("/login", loginRouter);
     app.use("/public", publicRouter);
     app.use("/", isAuth, router);
-
-
 
   
     return app;

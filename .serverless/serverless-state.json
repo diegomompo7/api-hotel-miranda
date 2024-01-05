@@ -1,8 +1,8 @@
 {
   "service": {
-    "service": "miranda-backend",
+    "service": "api-hotel-miranda",
     "serviceObject": {
-      "name": "miranda-backend"
+      "name": "api-hotel-miranda"
     },
     "provider": {
       "name": "aws",
@@ -10,6 +10,11 @@
       "runtime": "nodejs18.x",
       "stage": "dev",
       "versionFunctions": true,
+      "environment": {
+        "JWT_SECRET": "API-JWT-SECRET",
+        "DB_URL": "mongodb+srv://diegomompo:GuZN2eyznUHK0Xic@clusterhotelmiranda.ivz98u6.mongodb.net/HotelMiranda?retryWrites=true&w=majority",
+        "DB_NAME": "HotelMiranda"
+      },
       "compiledCloudFormationTemplate": {
         "AWSTemplateFormatVersion": "2010-09-09",
         "Description": "The AWS CloudFormation template for this Serverless application",
@@ -86,7 +91,7 @@
           "AppLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/miranda-backend-dev-app"
+              "LogGroupName": "/aws/lambda/api-hotel-miranda-dev-app"
             }
           },
           "IamRoleLambdaExecution": {
@@ -114,7 +119,7 @@
                     "Fn::Join": [
                       "-",
                       [
-                        "miranda-backend",
+                        "api-hotel-miranda",
                         "dev",
                         "lambda"
                       ]
@@ -132,7 +137,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/miranda-backend-dev*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/api-hotel-miranda-dev*:*"
                           }
                         ]
                       },
@@ -143,7 +148,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/miranda-backend-dev*:*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/api-hotel-miranda-dev*:*:*"
                           }
                         ]
                       }
@@ -156,7 +161,7 @@
                 "Fn::Join": [
                   "-",
                   [
-                    "miranda-backend",
+                    "api-hotel-miranda",
                     "dev",
                     {
                       "Ref": "AWS::Region"
@@ -174,13 +179,20 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/miranda-backend/dev/1704302898734-2024-01-03T17:28:18.734Z/miranda-backend.zip"
+                "S3Key": "serverless/api-hotel-miranda/dev/1704376073957-2024-01-04T13:47:53.957Z/api-hotel-miranda.zip"
               },
-              "Handler": "dist/lambda.handler",
+              "Handler": "./src/lambda.ts",
               "Runtime": "nodejs18.x",
-              "FunctionName": "miranda-backend-dev-app",
+              "FunctionName": "api-hotel-miranda-dev-app",
               "MemorySize": 1024,
               "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "JWT_SECRET": "API-JWT-SECRET",
+                  "DB_URL": "mongodb+srv://diegomompo:GuZN2eyznUHK0Xic@clusterhotelmiranda.ivz98u6.mongodb.net/HotelMiranda?retryWrites=true&w=majority",
+                  "DB_NAME": "HotelMiranda"
+                }
+              },
               "Role": {
                 "Fn::GetAtt": [
                   "IamRoleLambdaExecution",
@@ -192,20 +204,20 @@
               "AppLogGroup"
             ]
           },
-          "AppLambdaVersionuz46gsD9F0GM2yT7HkVLKvhedVJA15f0Rm1mUe2ZQ": {
+          "AppLambdaVersionkrGzSWRyXpB26D68NlO8JKxnLCrv5nNukePdA0Lu42I": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "JcHErsPHrd41pjRKEpFszwD8N/UWaC3gukIbkbU7Ut4="
+              "CodeSha256": "e7PCy1x9ab9myKOnyRw1SQ1Xomtk98fgoElfsPwCGLc="
             }
           },
           "ApiGatewayRestApi": {
             "Type": "AWS::ApiGateway::RestApi",
             "Properties": {
-              "Name": "dev-miranda-backend",
+              "Name": "dev-api-hotel-miranda",
               "EndpointConfiguration": {
                 "Types": [
                   "EDGE"
@@ -417,7 +429,7 @@
               "AppLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1704302886928": {
+          "ApiGatewayDeployment1704376056238": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -476,16 +488,16 @@
               "Ref": "ServerlessDeploymentBucket"
             },
             "Export": {
-              "Name": "sls-miranda-backend-dev-ServerlessDeploymentBucketName"
+              "Name": "sls-api-hotel-miranda-dev-ServerlessDeploymentBucketName"
             }
           },
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionuz46gsD9F0GM2yT7HkVLKvhedVJA15f0Rm1mUe2ZQ"
+              "Ref": "AppLambdaVersionkrGzSWRyXpB26D68NlO8JKxnLCrv5nNukePdA0Lu42I"
             },
             "Export": {
-              "Name": "sls-miranda-backend-dev-AppLambdaFunctionQualifiedArn"
+              "Name": "sls-api-hotel-miranda-dev-AppLambdaFunctionQualifiedArn"
             }
           },
           "ServiceEndpoint": {
@@ -511,7 +523,7 @@
               ]
             },
             "Export": {
-              "Name": "sls-miranda-backend-dev-ServiceEndpoint"
+              "Name": "sls-api-hotel-miranda-dev-ServiceEndpoint"
             }
           }
         }
@@ -600,10 +612,13 @@
       },
       "vpc": {}
     },
+    "plugins": [
+      "serverless-dotenv-plugin"
+    ],
     "pluginsData": {},
     "functions": {
       "app": {
-        "handler": "dist/lambda.handler",
+        "handler": "./src/lambda.ts",
         "events": [
           {
             "http": {
@@ -654,19 +669,22 @@
             }
           }
         ],
-        "name": "miranda-backend-dev-app",
+        "name": "api-hotel-miranda-dev-app",
         "package": {},
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "AppLambdaVersionuz46gsD9F0GM2yT7HkVLKvhedVJA15f0Rm1mUe2ZQ"
+        "versionLogicalId": "AppLambdaVersionkrGzSWRyXpB26D68NlO8JKxnLCrv5nNukePdA0Lu42I"
       }
     },
     "configValidationMode": "warn",
     "serviceFilename": "serverless.yml",
     "initialServerlessConfig": {
-      "service": "miranda-backend",
+      "service": "api-hotel-miranda",
+      "plugins": {
+        "$ref": "$[\"service\"][\"plugins\"]"
+      },
       "frameworkVersion": "3",
       "package": {
         "patterns": [
@@ -675,9 +693,9 @@
           "node_modules/**",
           "dist/**"
         ],
-        "artifactsS3KeyDirname": "serverless/miranda-backend/dev/code-artifacts",
-        "artifact": "C:\\Users\\Diego Trabajo\\Desktop\\Oxygen\\api-hotel-miranda\\.serverless\\miranda-backend.zip",
-        "artifactDirectoryName": "serverless/miranda-backend/dev/1704302898734-2024-01-03T17:28:18.734Z"
+        "artifactsS3KeyDirname": "serverless/api-hotel-miranda/dev/code-artifacts",
+        "artifact": "C:\\Users\\Diego Trabajo\\Desktop\\Oxygen\\api-hotel-miranda\\.serverless\\api-hotel-miranda.zip",
+        "artifactDirectoryName": "serverless/api-hotel-miranda/dev/1704376073957-2024-01-04T13:47:53.957Z"
       },
       "provider": {
         "$ref": "$[\"service\"][\"provider\"]"
@@ -688,10 +706,10 @@
     },
     "layers": {},
     "isDashboardMonitoringPreconfigured": false,
-    "artifact": "C:\\Users\\Diego Trabajo\\Desktop\\Oxygen\\api-hotel-miranda\\.serverless\\miranda-backend.zip"
+    "artifact": "C:\\Users\\Diego Trabajo\\Desktop\\Oxygen\\api-hotel-miranda\\.serverless\\api-hotel-miranda.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/miranda-backend/dev/1704302898734-2024-01-03T17:28:18.734Z",
-    "artifact": "miranda-backend.zip"
+    "artifactDirectoryName": "serverless/api-hotel-miranda/dev/1704376073957-2024-01-04T13:47:53.957Z",
+    "artifact": "api-hotel-miranda.zip"
   }
 }

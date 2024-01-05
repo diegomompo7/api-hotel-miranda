@@ -1,4 +1,6 @@
-service: miranda-backend
+service: api-hotel-miranda
+plugins:
+  - serverless-dotenv-plugin
 frameworkVersion: "3"
 package:
   patterns:
@@ -9,13 +11,10 @@ package:
 provider:
   name: aws
   region: eu-south-2
-  environment:
-    JWT_SECRET: ${file(.env):SECRET}
-    DB_URL: ${file(.env):DB_URL}
   runtime: nodejs18.x
 functions:
   app:
-    handler: dist/lambda.handler
+    handler: ./src/lambda.ts
     events:
       - http:
           path: /
