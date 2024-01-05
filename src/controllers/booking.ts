@@ -21,7 +21,7 @@ bookingRouter.get("/:id", async (req: Request, res: Response) => {
 
 bookingRouter.post("/", async (req: Request, res: Response) => {
     const booking = await postBooking(req.body)
-    res.json( booking);
+    res.send( booking);
 });
 
 

@@ -6,10 +6,7 @@ dotenv.config();
 
 export async function mongoConnect() {
     try {
-        return await mongoose.connect(process.env.DB_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        return await mongoose.connect(process.env.DB_URL);
     } catch (error) {
       console.error(error);
       console.log("Error en la conexión, intentando conectar en 5s...");

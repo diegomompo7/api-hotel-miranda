@@ -17,10 +17,7 @@ dotenv.config();
 function mongoConnect() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return yield mongoose.connect(process.env.DB_URL, {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-            });
+            return yield mongoose.connect(process.env.DB_URL);
         }
         catch (error) {
             console.error(error);
