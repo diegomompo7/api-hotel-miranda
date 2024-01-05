@@ -1,9 +1,9 @@
 import express, {Request, Response} from "express";
-import { deleteUser, getUsers, getUsersId, patchUser, postUser } from "../services/user.ts";
+import { deleteUser, getUsers, getUsersId, patchUser, postUser } from "../services/user";
 
 export const usersRouter = express.Router();
 
-usersRouter.get("/", async (req: Request, res: Response) => {
+usersRouter.get("/", async ( res: Response) => {
     const users = await getUsers()
     res.json(users);
 });
@@ -21,7 +21,7 @@ usersRouter.get("/:id", async (req: Request, res: Response) => {
 
 usersRouter.post("/", async (req: Request, res: Response) => {
     const users = await postUser(req.body)
-    res.json( [{success: "users create successfully"}]);
+    res.json( users);
 });
 
 

@@ -5,11 +5,7 @@ export interface AuthenticatedRequest extends Request {
   user?: any;
 }
 
-export const isAuth = async (
-  req: AuthenticatedRequest,
-  res: Response,
-  next: NextFunction
-) => {
+export const isAuth = async (req: AuthenticatedRequest,res: Response,next: NextFunction) => {
   try {
     const token = req.headers.authorization?.replace("Bearer ", "");
 
@@ -22,6 +18,7 @@ export const isAuth = async (
       const decodedInfo = await verifyToken(token);
       req.user = decodedInfo;
       next();
+      return null
     } catch (error) {
       return res.status(403).json({ message: "Forbidden: Invalid Token" });
     }

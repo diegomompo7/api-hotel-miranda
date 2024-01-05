@@ -1,9 +1,8 @@
 import express, {Request, Response} from "express";
-import { deleteContact, getContacts, getContactsId, patchContact, postContact } from "../services/contact.ts";
-
+import { deleteContact, getContacts, getContactsId, patchContact, postContact } from "../services/contact";
 export const contactRouter = express.Router();
 
-contactRouter.get("/", async (req: Request, res: Response) => {
+contactRouter.get("/", async (res: Response) => {
     const contacts = await getContacts()
     res.json(contacts);
 });
@@ -21,7 +20,7 @@ contactRouter.get("/:id", async (req: Request, res: Response) => {
 
 contactRouter.post("/", async (req: Request, res: Response) => {
     const contact = await postContact(req.body)
-    res.json( [{success: "contact create successfully"}]);
+    res.json( contact);
 });
 
 
@@ -29,7 +28,7 @@ contactRouter.patch("/:id", async (req: Request, res: Response) => {
     const id = req.params.id
     const data = await patchContact(id, req.body)
     if (data) {
-      res.status(404).json({"message": "Contact not found"});
+      res.json(data);
       } else {
         res.status(404).json({});
     }

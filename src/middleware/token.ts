@@ -1,5 +1,4 @@
-import { IUser, User } from "../model/UserInterface"
-import { Document } from "mongoose"
+import { User } from "../model/UserInterface"
 
 const jwt = require('jsonwebtoken');
 const dotenv = require("dotenv");

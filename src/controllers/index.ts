@@ -1,4 +1,4 @@
-import express, { NextFunction,  Response, Request,  ErrorRequestHandler } from "express";
+import express, {Response, Request } from "express";
 import { bookingRouter } from "./booking";
 import { roomRouter } from "./room";
 import { contactRouter } from "./contact";
@@ -14,10 +14,10 @@ interface AuthenticatedRequest extends Request {
 
 export const configureRoutes = async (app: any): Promise<any> => {
     // Rutas
-    const mongoDatabase = await mongoConnect()
+    await mongoConnect()
     const router = express.Router();
 
-    router.get("/", async (req:Request, res: Response) => {
+    router.get("/", async (res: Response) => {
       const data = await getContacts()
         res.json(data);
     });
@@ -27,7 +27,7 @@ export const configureRoutes = async (app: any): Promise<any> => {
       res.json({ photo: user.photo, fullName: user.fullName, email: user.email});
     });
 
-    router.get("*", (req: Request, res: Response) => {
+    router.get("*", ( res: Response) => {
       res.status(404).send("Lo sentimos :( No hemos encontrado la página solicitada.");
     });
   

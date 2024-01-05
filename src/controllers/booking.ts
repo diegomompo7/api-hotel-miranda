@@ -1,9 +1,9 @@
 import express, {Request, Response} from "express";
-import { deleteBooking, getBookings, getBookingsId, patchBooking, postBooking } from "../services/booking.ts";
+import { deleteBooking, getBookings, getBookingsId, patchBooking, postBooking } from "../services/booking";
 
 export const bookingRouter = express.Router();
 
-bookingRouter.get("/", async (req: Request, res: Response) => {
+bookingRouter.get("/", async (res: Response) => {
     const bookings = await getBookings()
     res.json(bookings);
 });
@@ -21,7 +21,7 @@ bookingRouter.get("/:id", async (req: Request, res: Response) => {
 
 bookingRouter.post("/", async (req: Request, res: Response) => {
     const booking = await postBooking(req.body)
-    res.json( [{success: "booking create successfully"}]);
+    res.json( booking);
 });
 
 
@@ -29,7 +29,7 @@ bookingRouter.patch("/:id", async (req: Request, res: Response) => {
     const id = req.params.id
     const data = await patchBooking(id, req.body)
     if (data) {
-        res.json( [{success: "booking updated successfully"}]);
+        res.json( data);
       } else {
         res.status(404).json({});
     }

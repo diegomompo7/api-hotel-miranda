@@ -1,7 +1,5 @@
 import { Document } from "mongoose"
 import { Booking, IBooking, IBookingCreate } from "../model/BookingInterface"
-import { Db } from "mongodb"
-import { Room} from "../model/RoomInterface"
 
 
 export const getBookings = async() :Promise<IBooking[]> => {

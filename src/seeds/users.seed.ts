@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IUser, IUserCreate, User } from "../model/UserInterface";
+import { User } from "../model/UserInterface";
 import { mongoConnect } from "../mongo-repository";
 import { faker } from '@faker-js/faker/locale/es';
 
