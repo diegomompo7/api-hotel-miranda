@@ -1,4 +1,4 @@
-import express, {Response, Request } from "express";
+import express, {Response, Request, NextFunction } from "express";
 import { bookingRouter } from "./booking";
 import { roomRouter } from "./room";
 import { contactRouter } from "./contact";
@@ -17,9 +17,13 @@ export const configureRoutes = async (app: any): Promise<any> => {
     await mongoConnect()
     const router = express.Router();
 
-    router.get("/", async (_req: Request, res: Response) => {
+    router.get("/", async (_req: Request, res: Response, next: NextFunction) => {
       const data = await getContacts()
+      try{
         res.json(data);
+      }catch(err){
+        next(err);
+      }
     });
 
     router.get("/header", isAuth, (req: AuthenticatedRequest, res: Response) => {

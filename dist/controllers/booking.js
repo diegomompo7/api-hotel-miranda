@@ -17,8 +17,8 @@ const express_1 = __importDefault(require("express"));
 const booking_1 = require("../services/booking");
 exports.bookingRouter = express_1.default.Router();
 exports.bookingRouter.get("/", (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const bookings = yield (0, booking_1.getBookings)();
     try {
-        const bookings = yield (0, booking_1.getBookings)();
         res.json(bookings);
     }
     catch (err) {
@@ -26,18 +26,23 @@ exports.bookingRouter.get("/", (_req, res, next) => __awaiter(void 0, void 0, vo
     }
 }));
 exports.bookingRouter.get("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    const booking = yield (0, booking_1.getBookingsId)(id);
     try {
-        const id = req.params.id;
-        const booking = yield (0, booking_1.getBookingsId)(id);
-        res.json(booking);
+        if (booking) {
+            res.json(booking);
+        }
+        else {
+            res.status(404).json({ "message": "booking not found" });
+        }
     }
     catch (err) {
         next(err);
     }
 }));
 exports.bookingRouter.post("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const booking = yield (0, booking_1.postBooking)(req.body);
     try {
-        const booking = yield (0, booking_1.postBooking)(req.body);
         res.json(booking);
     }
     catch (err) {
@@ -45,20 +50,30 @@ exports.bookingRouter.post("/", (req, res, next) => __awaiter(void 0, void 0, vo
     }
 }));
 exports.bookingRouter.patch("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    const data = yield (0, booking_1.patchBooking)(id, req.body);
     try {
-        const id = req.params.id;
-        const data = yield (0, booking_1.patchBooking)(id, req.body);
-        res.json(data);
+        if (data) {
+            res.json(data);
+        }
+        else {
+            res.status(404).json({ "message": "booking not found" });
+        }
     }
     catch (err) {
         next(err);
     }
 }));
 exports.bookingRouter.delete("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    const data = yield (0, booking_1.deleteBooking)(id);
     try {
-        const id = req.params.id;
-        yield (0, booking_1.deleteBooking)(id);
-        res.json([{ success: "booking deleted successfully" }]);
+        if (data) {
+            res.json(data);
+        }
+        else {
+            res.status(404).json({ "message": "booking not found" });
+        }
     }
     catch (err) {
         next(err);

@@ -29,7 +29,12 @@ exports.usersRouter.get("/:id", (req, res, next) => __awaiter(void 0, void 0, vo
     try {
         const id = req.params.id;
         const user = yield (0, user_1.getUsersId)(id);
-        res.json(user);
+        if (user) {
+            res.json(user);
+        }
+        else {
+            res.status(404).json({ "message": "user not found" });
+        }
     }
     catch (err) {
         next(err);
@@ -48,7 +53,12 @@ exports.usersRouter.patch("/:id", (req, res, next) => __awaiter(void 0, void 0, 
     try {
         const id = req.params.id;
         const data = yield (0, user_1.patchUser)(id, req.body);
-        res.json(data);
+        if (data) {
+            res.json(data);
+        }
+        else {
+            res.status(404).json({ "message": "user not found" });
+        }
     }
     catch (err) {
         next(err);
@@ -57,8 +67,13 @@ exports.usersRouter.patch("/:id", (req, res, next) => __awaiter(void 0, void 0, 
 exports.usersRouter.delete("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
-        yield (0, user_1.deleteUser)(id);
-        res.json([{ success: "user deleted successfully" }]);
+        const data = yield (0, user_1.deleteUser)(id);
+        if (data) {
+            res.json(data);
+        }
+        else {
+            res.status(404).json({ "message": "user not found" });
+        }
     }
     catch (err) {
         next(err);

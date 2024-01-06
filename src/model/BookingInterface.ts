@@ -5,7 +5,7 @@ export interface IBookingCreate {
   name: string;
   orderDate: Date;
   dateIn: Date;
-  dateOut: string;
+  dateOut: Date;
   room: IRoom;
   specialRequest: string;
   status: string;

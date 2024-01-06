@@ -27,9 +27,14 @@ const configureRoutes = (app) => __awaiter(void 0, void 0, void 0, function* () 
     // Rutas
     yield (0, mongo_repository_1.mongoConnect)();
     const router = express_1.default.Router();
-    router.get("/", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    router.get("/", (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const data = yield (0, contact_2.getContacts)();
-        res.json(data);
+        try {
+            res.json(data);
+        }
+        catch (err) {
+            next(err);
+        }
     }));
     router.get("/header", auth_1.isAuth, (req, res) => {
         const user = req.user;

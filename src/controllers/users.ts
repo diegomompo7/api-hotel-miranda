@@ -16,7 +16,11 @@ usersRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) 
   try {
     const id = req.params.id
     const user = await getUsersId(id)
-    res.json(user);
+    if(user){
+      res.json(user);
+      }else {
+        res.status(404).json({"message": "user not found"});
+    }
     }catch (err) {
       next(err);
   }
@@ -36,7 +40,11 @@ usersRouter.patch("/:id", async (req: Request, res: Response, next: NextFunction
   try {
     const id = req.params.id
     const data = await patchUser(id, req.body)
-    res.json( data);
+    if(data){
+      res.json(data);
+      }else {
+        res.status(404).json({"message": "user not found"});
+    }
   }catch (err) {
     next(err);
 }
@@ -46,8 +54,12 @@ usersRouter.patch("/:id", async (req: Request, res: Response, next: NextFunction
 usersRouter.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
-    await deleteUser(id)
-    res.json( [{success: "user deleted successfully"}]);
+    const data = await deleteUser(id)
+    if(data){
+      res.json(data);
+      }else {
+        res.status(404).json({"message": "user not found"});
+    }
   }catch (err) {
     next(err);
 }
