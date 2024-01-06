@@ -16,9 +16,9 @@ exports.bookingRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const booking_1 = require("../services/booking");
 exports.bookingRouter = express_1.default.Router();
-exports.bookingRouter.get("/", (res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingRouter.get("/", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const bookings = yield (0, booking_1.getBookings)();
-    res.json(bookings);
+    res.send(bookings);
 }));
 exports.bookingRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
@@ -32,7 +32,7 @@ exports.bookingRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0
 }));
 exports.bookingRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const booking = yield (0, booking_1.postBooking)(req.body);
-    res.json(booking);
+    res.send(booking);
 }));
 exports.bookingRouter.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;

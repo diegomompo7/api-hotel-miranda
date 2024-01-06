@@ -1,47 +1,54 @@
-import express, {Request, Response} from "express";
+import express, {NextFunction, Request, Response} from "express";
 import { deleteBooking, getBookings, getBookingsId, patchBooking, postBooking } from "../services/booking";
 
 export const bookingRouter = express.Router();
 
-bookingRouter.get("/", async (res: Response) => {
+bookingRouter.get("/", async (_req: Request, res: Response, next: NextFunction) => {
+  try {
     const bookings = await getBookings()
     res.json(bookings);
+  }catch (err) {
+      next(err);
+  }
 });
 
-bookingRouter.get("/:id", async (req: Request, res: Response) => {
+bookingRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
     const id = req.params.id
     const booking = await getBookingsId(id)
-    
-    if (booking) {
-        res.json(booking);
-      } else {
-        res.status(404).json({});
-      }
+    res.json(booking);
+    }catch (err) {
+      next(err);
+  }
 });
 
-bookingRouter.post("/", async (req: Request, res: Response) => {
+bookingRouter.post("/", async (req: Request, res: Response,next: NextFunction) => {
+  try {
     const booking = await postBooking(req.body)
-    res.send( booking);
+    res.json( booking);
+  }catch (err) {
+    next(err);
+}
 });
 
 
-bookingRouter.patch("/:id", async (req: Request, res: Response) => {
+bookingRouter.patch("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
     const id = req.params.id
     const data = await patchBooking(id, req.body)
-    if (data) {
-        res.json( data);
-      } else {
-        res.status(404).json({});
-    }
+    res.json( data);
+  }catch (err) {
+    next(err);
+}
 });
 
 
-bookingRouter.delete("/:id", async (req: Request, res: Response) => {
+bookingRouter.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
     const id = req.params.id;
-    const data = await deleteBooking(id)
-    if (data) {
-        res.json( [{success: "booking deleted successfully"}]);
-      } else {
-        res.status(404).json({});
-    }
+    await deleteBooking(id)
+    res.json( [{success: "booking deleted successfully"}]);
+  }catch (err) {
+    next(err);
+}
 });

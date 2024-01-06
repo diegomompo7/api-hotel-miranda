@@ -1,47 +1,54 @@
-import express, {Request, Response} from "express";
+import express, {NextFunction, Request, Response} from "express";
 import { deleteUser, getUsers, getUsersId, patchUser, postUser } from "../services/user";
 
 export const usersRouter = express.Router();
 
-usersRouter.get("/", async ( res: Response) => {
+usersRouter.get("/", async (_req: Request, res: Response, next: NextFunction) => {
+  try {
     const users = await getUsers()
     res.json(users);
+  }catch (err) {
+      next(err);
+  }
 });
 
-usersRouter.get("/:id", async (req: Request, res: Response) => {
+usersRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
     const id = req.params.id
-    const users = await getUsersId(id)
-    
-    if (users) {
-        res.json(users);
-      } else {
-        res.status(404).json({"message": "User not found"});
-      }
+    const user = await getUsersId(id)
+    res.json(user);
+    }catch (err) {
+      next(err);
+  }
 });
 
-usersRouter.post("/", async (req: Request, res: Response) => {
-    const users = await postUser(req.body)
-    res.json( users);
+usersRouter.post("/", async (req: Request, res: Response,next: NextFunction) => {
+  try {
+    const user = await postUser(req.body)
+    res.json( user);
+  }catch (err) {
+    next(err);
+}
 });
 
 
-usersRouter.patch("/:id", async (req: Request, res: Response) => {
+usersRouter.patch("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
     const id = req.params.id
     const data = await patchUser(id, req.body)
-    if (data) {
-        res.json( [{success: "users updated successfully"}]);
-      } else {
-        res.status(404).json({"message": "User not found"});
-    }
+    res.json( data);
+  }catch (err) {
+    next(err);
+}
 });
 
 
-usersRouter.delete("/:id", async (req: Request, res: Response) => {
+usersRouter.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
     const id = req.params.id;
-    const data = await deleteUser(id)
-    if (data) {
-        res.json( [{success: "users deleted successfully"}]);
-      } else {
-        res.status(404).json({"message": "User not found"});
-    }
+    await deleteUser(id)
+    res.json( [{success: "user deleted successfully"}]);
+  }catch (err) {
+    next(err);
+}
 });

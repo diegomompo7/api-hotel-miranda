@@ -17,7 +17,7 @@ export const configureRoutes = async (app: any): Promise<any> => {
     await mongoConnect()
     const router = express.Router();
 
-    router.get("/", async (res: Response) => {
+    router.get("/", async (_req: Request, res: Response) => {
       const data = await getContacts()
         res.json(data);
     });

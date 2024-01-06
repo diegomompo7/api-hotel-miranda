@@ -1,47 +1,54 @@
-import express, {Request, Response} from "express";
+import express, {NextFunction, Request, Response} from "express";
 import { deleteRoom, getRooms, getRoomsId, patchRoom, postRoom } from "../services/room";
 
 export const roomRouter = express.Router();
 
-roomRouter.get("/", async (res: Response) => {
+roomRouter.get("/", async (_req: Request, res: Response, next: NextFunction) => {
+  try {
     const rooms = await getRooms()
     res.json(rooms);
+  }catch (err) {
+      next(err);
+  }
 });
 
-roomRouter.get("/:id", async (req: Request, res: Response) => {
+roomRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
     const id = req.params.id
     const room = await getRoomsId(id)
-    
-    if (room) {
-        res.json(room);
-      } else {
-        res.status(404).json({"message": "Room not found"});
-      }
+    res.json(room);
+    }catch (err) {
+      next(err);
+  }
 });
 
-roomRouter.post("/", async (req: Request, res: Response) => {
+roomRouter.post("/", async (req: Request, res: Response,next: NextFunction) => {
+  try {
     const room = await postRoom(req.body)
     res.json( room);
+  }catch (err) {
+    next(err);
+}
 });
 
 
-roomRouter.patch("/:id", async (req: Request, res: Response) => {
+roomRouter.patch("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
     const id = req.params.id
     const data = await patchRoom(id, req.body)
-    if (data) {
-        res.json( data);
-      } else {
-        res.status(404).json({"message": "Room not found"});
-    }
+    res.json( data);
+  }catch (err) {
+    next(err);
+}
 });
 
 
-roomRouter.delete("/:id", async (req: Request, res: Response) => {
+roomRouter.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
     const id = req.params.id;
-    const data = await deleteRoom(id)
-    if (data) {
-        res.json( [{success: "room deleted successfully"}]);
-      } else {
-        res.status(404).json({"message": "Room not found"});
-    }
+    await deleteRoom(id)
+    res.json( [{success: "room deleted successfully"}]);
+  }catch (err) {
+    next(err);
+}
 });

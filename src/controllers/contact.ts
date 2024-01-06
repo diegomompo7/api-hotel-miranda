@@ -1,46 +1,54 @@
-import express, {Request, Response} from "express";
+import express, {NextFunction, Request, Response} from "express";
 import { deleteContact, getContacts, getContactsId, patchContact, postContact } from "../services/contact";
+
 export const contactRouter = express.Router();
 
-contactRouter.get("/", async (res: Response) => {
+contactRouter.get("/", async (_req: Request, res: Response, next: NextFunction) => {
+  try {
     const contacts = await getContacts()
     res.json(contacts);
+  }catch (err) {
+      next(err);
+  }
 });
 
-contactRouter.get("/:id", async (req: Request, res: Response) => {
+contactRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
     const id = req.params.id
     const contact = await getContactsId(id)
-    
-    if (contact) {
-        res.json(contact);
-      } else {
-        res.status(404).json({"message": "Contact not found"});
-      }
+    res.json(contact);
+    }catch (err) {
+      next(err);
+  }
 });
 
-contactRouter.post("/", async (req: Request, res: Response) => {
+contactRouter.post("/", async (req: Request, res: Response,next: NextFunction) => {
+  try {
     const contact = await postContact(req.body)
     res.json( contact);
+  }catch (err) {
+    next(err);
+}
 });
 
 
-contactRouter.patch("/:id", async (req: Request, res: Response) => {
+contactRouter.patch("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
     const id = req.params.id
     const data = await patchContact(id, req.body)
-    if (data) {
-      res.json(data);
-      } else {
-        res.status(404).json({});
-    }
+    res.json( data);
+  }catch (err) {
+    next(err);
+}
 });
 
 
-contactRouter.delete("/:id", async (req: Request, res: Response) => {
+contactRouter.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
     const id = req.params.id;
-    const data = await deleteContact(id)
-    if (data) {
-        res.json( [{success: "contact deleted successfully"}]);
-      } else {
-        res.status(404).json({"message": "Contact not found"});
-    }
+    await deleteContact(id)
+    res.json( [{success: "contact deleted successfully"}]);
+  }catch (err) {
+    next(err);
+}
 });

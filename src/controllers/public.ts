@@ -1,10 +1,10 @@
-import express, {Response} from "express";
+import express, {Request, Response} from "express";
 
 
 export const publicRouter = express.Router();
 
 
-publicRouter.get("/", (res: Response) => {
+publicRouter.get("/", (_req: Request, res: Response) => {
    res.json({
     name: "Hotel Miranda",
     endpoints: {
