@@ -16,41 +16,51 @@ exports.contactRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const contact_1 = require("../services/contact");
 exports.contactRouter = express_1.default.Router();
-exports.contactRouter.get("/", (res) => __awaiter(void 0, void 0, void 0, function* () {
-    const contacts = yield (0, contact_1.getContacts)();
-    res.json(contacts);
+exports.contactRouter.get("/", (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const contacts = yield (0, contact_1.getContacts)();
+        res.json(contacts);
+    }
+    catch (err) {
+        next(err);
+    }
 }));
-exports.contactRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.params.id;
-    const contact = yield (0, contact_1.getContactsId)(id);
-    if (contact) {
+exports.contactRouter.get("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.id;
+        const contact = yield (0, contact_1.getContactsId)(id);
         res.json(contact);
     }
-    else {
-        res.status(404).json({ "message": "Contact not found" });
+    catch (err) {
+        next(err);
     }
 }));
-exports.contactRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const contact = yield (0, contact_1.postContact)(req.body);
-    res.json(contact);
+exports.contactRouter.post("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const contact = yield (0, contact_1.postContact)(req.body);
+        res.json(contact);
+    }
+    catch (err) {
+        next(err);
+    }
 }));
-exports.contactRouter.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.params.id;
-    const data = yield (0, contact_1.patchContact)(id, req.body);
-    if (data) {
+exports.contactRouter.patch("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.id;
+        const data = yield (0, contact_1.patchContact)(id, req.body);
         res.json(data);
     }
-    else {
-        res.status(404).json({});
+    catch (err) {
+        next(err);
     }
 }));
-exports.contactRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.params.id;
-    const data = yield (0, contact_1.deleteContact)(id);
-    if (data) {
+exports.contactRouter.delete("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.id;
+        yield (0, contact_1.deleteContact)(id);
         res.json([{ success: "contact deleted successfully" }]);
     }
-    else {
-        res.status(404).json({ "message": "Contact not found" });
+    catch (err) {
+        next(err);
     }
 }));

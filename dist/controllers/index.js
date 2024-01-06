@@ -27,7 +27,7 @@ const configureRoutes = (app) => __awaiter(void 0, void 0, void 0, function* () 
     // Rutas
     yield (0, mongo_repository_1.mongoConnect)();
     const router = express_1.default.Router();
-    router.get("/", (res) => __awaiter(void 0, void 0, void 0, function* () {
+    router.get("/", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const data = yield (0, contact_2.getContacts)();
         res.json(data);
     }));

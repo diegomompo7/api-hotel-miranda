@@ -16,41 +16,51 @@ exports.usersRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const user_1 = require("../services/user");
 exports.usersRouter = express_1.default.Router();
-exports.usersRouter.get("/", (res) => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield (0, user_1.getUsers)();
-    res.json(users);
-}));
-exports.usersRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.params.id;
-    const users = yield (0, user_1.getUsersId)(id);
-    if (users) {
+exports.usersRouter.get("/", (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const users = yield (0, user_1.getUsers)();
         res.json(users);
     }
-    else {
-        res.status(404).json({ "message": "User not found" });
+    catch (err) {
+        next(err);
     }
 }));
-exports.usersRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield (0, user_1.postUser)(req.body);
-    res.json(users);
-}));
-exports.usersRouter.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.params.id;
-    const data = yield (0, user_1.patchUser)(id, req.body);
-    if (data) {
-        res.json([{ success: "users updated successfully" }]);
+exports.usersRouter.get("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.id;
+        const user = yield (0, user_1.getUsersId)(id);
+        res.json(user);
     }
-    else {
-        res.status(404).json({ "message": "User not found" });
+    catch (err) {
+        next(err);
     }
 }));
-exports.usersRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.params.id;
-    const data = yield (0, user_1.deleteUser)(id);
-    if (data) {
-        res.json([{ success: "users deleted successfully" }]);
+exports.usersRouter.post("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield (0, user_1.postUser)(req.body);
+        res.json(user);
     }
-    else {
-        res.status(404).json({ "message": "User not found" });
+    catch (err) {
+        next(err);
+    }
+}));
+exports.usersRouter.patch("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.id;
+        const data = yield (0, user_1.patchUser)(id, req.body);
+        res.json(data);
+    }
+    catch (err) {
+        next(err);
+    }
+}));
+exports.usersRouter.delete("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.id;
+        yield (0, user_1.deleteUser)(id);
+        res.json([{ success: "user deleted successfully" }]);
+    }
+    catch (err) {
+        next(err);
     }
 }));
