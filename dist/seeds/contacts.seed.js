@@ -33,7 +33,8 @@ function seedDB() {
                     surname: lastName,
                     email: email,
                     phone: es_1.faker.phone.number().replace(/\D/g, ''),
-                    date: es_1.faker.date.past({ years: 1, refDate: '2024-01-02T00:00:00.000Z' }),
+                    date: es_1.faker.date.past({ years: 1, refDate: '2024-01-02T00:00:00.000Z' }).toLocaleDateString()
+                        .replace(/\//g, '-'),
                     subject: es_1.faker.lorem.sentence(5),
                     message: es_1.faker.lorem.paragraph(2),
                     stars: es_1.faker.number.int({ min: 1, max: 5 }),

@@ -24,7 +24,8 @@ async function seedDB() {
                 job: job,
                 email: email,
                 phone: faker.phone.number().replace(/\D/g, ''),
-                startDate: faker.date.past({ years: 1, refDate: '2024-01-02T00:00:00.000Z' }).toISOString().substring(0, 10),
+                startDate: faker.date.past({ years: 1, refDate: '2024-01-02T00:00:00.000Z' }).toLocaleDateString()
+                .replace(/\//g, '-'),
                 descriptionJob:job,
                 status: faker.helpers.arrayElement(['ACTIVE', 'INACTIVE']),
                 password: faker.internet.password({memorable: true }),

@@ -3,9 +3,11 @@ import mongoose, {Document, Schema } from "mongoose";
 
 export interface IBookingCreate {
   name: string;
-  orderDate: Date;
-  dateIn: Date;
-  dateOut: Date;
+  orderDate: string;
+  check_in: string;
+  hour_in: string
+  check_out: string;
+  hour_out: string
   room: IRoom;
   specialRequest: string;
   status: string;
@@ -15,9 +17,11 @@ export type IBooking = IBookingCreate & Document;
 
 const bookingSchema = new Schema({
   name: {type: String, required: true},
-  orderDate: { type: Date, default: Date.now },
-  dateIn: {type: Date, required: true},
-  dateOut: {type: Date, required: true},
+  orderDate: { type: String, default: Date.now },
+  check_in: { type: String, required: true},
+  hour_in: { type: String, required: true},
+  check_out: { type: String, required: true},
+  hour_out: { type: String, required: true},
   room: {
     type: Schema.Types.ObjectId,
     ref: Room,

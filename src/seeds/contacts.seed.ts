@@ -22,7 +22,8 @@ async function seedDB() {
                 surname: lastName,
                 email: email,
                 phone: faker.phone.number().replace(/\D/g, ''),
-                date: faker.date.past({ years: 1, refDate: '2024-01-02T00:00:00.000Z' }),
+                date: faker.date.past({ years: 1, refDate: '2024-01-02T00:00:00.000Z' }).toLocaleDateString()
+                .replace(/\//g, '-'),
                 subject: faker.lorem.sentence(5),
                 message: faker.lorem.paragraph(2),
                 stars: faker.number.int({ min: 1, max: 5}),

@@ -21,7 +21,7 @@ const contactSchema = new Schema({
   surname: {type: String, required: true},
   email: {type: String, required: true},
   phone: {type: Number, required: true},
-  date: {type: Date, default: Date.now, required: true},
+  date: {type: String, default: Date.now, required: true},
   subject: {type: String, required: true},
   message: {type: String, required: true},
   stars: {type: Number, required: true},

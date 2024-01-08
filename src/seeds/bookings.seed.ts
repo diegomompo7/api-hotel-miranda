@@ -4,18 +4,6 @@ import { mongoConnect } from "../mongo-repository";
 import { faker } from '@faker-js/faker/locale/es';
 import { Room } from "../model/RoomInterface";
 
-/*
-export interface IBookingCreate {
-  name: string;
-  orderDate: Date;
-  dateIn: Date;
-  dateOut: string;
-  room: IRoom;
-  specialRequest: string;
-  status: string;
-}
-
-*/
 
 async function seedDB() {
     try {
@@ -35,15 +23,17 @@ async function seedDB() {
 
         for (let i = 0; i < 15; i++) {
             const fullName = faker.person.fullName();
-            const dateIn =  faker.date.past({ years: 1, refDate: '2024-01-31T00:00:00.000Z' })
-            const dateOut = faker.date.soon({ days: 5, refDate: dateIn })
+            const checkIn =  faker.date.past({ years: 1, refDate: '2024-01-31' }).toLocaleDateString() .replace(/\//g, '-')
+            const checkOut = faker.date.soon({ days: 5, refDate: checkIn }).toLocaleDateString().replace(/\//g, '-')
 
             const document = new Booking({
                 name: fullName,
-                orderDate: Date.now(),
+                orderDate: new Date(Date.now()).toLocaleDateString().replace(/\//g, '-'),
                 phone: faker.phone.number().replace(/\D/g, ''),
-                dateIn: dateIn,
-                dateOut: dateOut,
+                check_in: checkIn,
+                hour_in: faker.date.past().toLocaleTimeString(),
+                check_out: checkOut,
+                hour_out: faker.date.soon().toLocaleTimeString(),
                 room: rooms[Math.floor(Math.random() * rooms.length-1)],
                 specialRequest: faker.lorem.paragraph(2),
                 status: "Check In"

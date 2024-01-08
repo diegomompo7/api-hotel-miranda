@@ -28,9 +28,11 @@ const RoomInterface_1 = require("./RoomInterface");
 const mongoose_1 = __importStar(require("mongoose"));
 const bookingSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
-    orderDate: { type: Date, default: Date.now },
-    dateIn: { type: Date, required: true },
-    dateOut: { type: Date, required: true },
+    orderDate: { type: String, default: Date.now },
+    check_in: { type: String, required: true },
+    hour_in: { type: String, required: true },
+    check_out: { type: String, required: true },
+    hour_out: { type: String, required: true },
     room: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: RoomInterface_1.Room,
