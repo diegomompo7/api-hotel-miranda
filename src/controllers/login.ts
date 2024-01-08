@@ -13,6 +13,6 @@ loginRouter.post("/", async (req: Request, res: Response) => {
         const token = await generateToken({ email: req.body.email });
         res.json(token);
     } else{
-        res.json({message: "Invalid username or password"});
+        res.status(404).json({message: "Invalid username or password"});
     }
 });

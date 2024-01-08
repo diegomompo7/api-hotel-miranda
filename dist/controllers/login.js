@@ -24,6 +24,6 @@ exports.loginRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, fu
         res.json(token);
     }
     else {
-        res.json({ message: "Invalid username or password" });
+        res.status(404).json({ message: "Invalid username or password" });
     }
 }));
