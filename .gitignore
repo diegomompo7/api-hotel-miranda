@@ -11,7 +11,7 @@
 /dist
 
 # production
-/build
+/dist
 
 # dotenv environment variable files
 .env
