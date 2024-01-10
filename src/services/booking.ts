@@ -13,11 +13,11 @@ export const getBookingsId = async(id: string) :Promise<Document<IBooking> | nul
 export const postBooking = async(bookingData: IBookingCreate): Promise<Document<IBooking>>  => {
     const booking = new Booking(bookingData)
     const document: Document<IBooking> = (await booking.save()) as any
-    return document
+    return document.populate(["room"])
 
 }
 export const patchBooking = async(id: string, bookingData: any): Promise<Document<IBooking> | null> => {
-    return await Booking.findByIdAndUpdate(id, bookingData, { new: true, runValidators: true })
+    return await Booking.findByIdAndUpdate(id, bookingData, { new: true, runValidators: true }).populate(["room"])
 }
 
 export const deleteBooking = async(id:string): Promise<Document<IBooking> | null>  => {
