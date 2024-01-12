@@ -17,7 +17,6 @@ export const postUser = async(userData: IUserCreate): Promise<Document<IUser>>  
 
 }
 export const patchUser = async(id: string, userData: any): Promise<Document<IUser> | null> => {
-    console.log(id)
     return await User.findByIdAndUpdate(id, userData, { new: true, runValidators: true })
 }
 

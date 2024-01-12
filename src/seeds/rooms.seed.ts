@@ -28,7 +28,7 @@ async function seedDB() {
             const offer = faker.helpers.arrayElement(["YES", "NO"])
 
             const document = new Room({
-                photos: [faker.image.url(), faker.image.url(), faker.image.url()],
+                photos: [faker.image.urlLoremFlickr({ category: 'hotel,bedroom' }),faker.image.urlLoremFlickr({ category: 'hotel,bedroom' }), faker.image.urlLoremFlickr({ category: 'hotel,bedroom' })],
                 roomType: faker.helpers.arrayElement(["Single Bed", "Double Bed", "Double Superior", "Suite"]),
                 roomNumber: faker.lorem.word() + '-' + faker.number.int({ max: 500 }),
                 description: faker.lorem.paragraph(2),

@@ -29,9 +29,13 @@ roomRouter.get(
   "/:id",
   async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
-    const room = await getRoomsId(id);
     try {
+    const room = await getRoomsId(id);
+    if(room){
       res.json(room);
+    } else {
+      res.status(404).json({"message": "rooms not found"});
+      }
     } catch (err) {
       next(err);
     }

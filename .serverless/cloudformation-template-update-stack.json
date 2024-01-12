@@ -162,7 +162,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/api-hotel-miranda/dev/1704904797244-2024-01-10T16:39:57.244Z/api-hotel-miranda.zip"
+          "S3Key": "serverless/api-hotel-miranda/dev/1704975809343-2024-01-11T12:23:29.343Z/api-hotel-miranda.zip"
         },
         "Handler": "dist/lambda.handler",
         "Runtime": "nodejs18.x",
@@ -187,14 +187,14 @@
         "AppLogGroup"
       ]
     },
-    "AppLambdaVersioneIKFRoSy6EXmezAy3L2cXrVuUWuyeLfNrgl89yuTE": {
+    "AppLambdaVersionJrmQhq0c1gwQ1tbyocq3f1lPvzuGMqcCRexBsGdKMY": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "42Xjqqvsuu23rAOywPFKwOf9sDSw0mCBFZa98yC+bAU="
+        "CodeSha256": "iDXD9uQguiX2qgGptEBrjfCFxjs1M9dHqJroFkE4m2Q="
       }
     },
     "ApiGatewayRestApi": {
@@ -412,7 +412,7 @@
         "AppLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1704904778236": {
+    "ApiGatewayDeployment1704975790376": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -477,7 +477,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersioneIKFRoSy6EXmezAy3L2cXrVuUWuyeLfNrgl89yuTE"
+        "Ref": "AppLambdaVersionJrmQhq0c1gwQ1tbyocq3f1lPvzuGMqcCRexBsGdKMY"
       },
       "Export": {
         "Name": "sls-api-hotel-miranda-dev-AppLambdaFunctionQualifiedArn"

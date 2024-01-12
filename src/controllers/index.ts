@@ -7,14 +7,12 @@ import { loginRouter } from "./login";
 import { isAuth } from "../middleware/auth";
 import { getContacts } from "../services/contact";
 import { publicRouter } from "./public";
-import { mongoConnect} from "../mongo-repository";
 interface AuthenticatedRequest extends Request {
   user?: any;
 }
 
 export const configureRoutes = async (app: any): Promise<any> => {
     // Rutas
-    await mongoConnect()
     const router = express.Router();
 
     router.get("/", async (_req: Request, res: Response, next: NextFunction) => {
