@@ -14,10 +14,10 @@ roomRouter.get(
   async (_req: Request, res: Response, next: NextFunction) => {
     const rooms = await getRooms();
     try {
-      if(rooms){
+      if (rooms) {
         res.json(rooms);
-        }else {
-          res.status(404).json({"message": "rooms not found"});
+      } else {
+        res.json({ message: "There aren't rooms on the table" });
       }
     } catch (err) {
       next(err);
@@ -30,11 +30,11 @@ roomRouter.get(
   async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
     try {
-    const room = await getRoomsId(id);
-    if(room){
-      res.json(room);
-    } else {
-      res.status(404).json({"message": "rooms not found"});
+      const room = await getRoomsId(id);
+      if (room) {
+        res.json(room);
+      } else {
+        res.status(404).json({ message: "room not found" });
       }
     } catch (err) {
       next(err);
@@ -60,10 +60,10 @@ roomRouter.patch(
     const id = req.params.id;
     const data = await patchRoom(id, req.body);
     try {
-      if(data){
+      if (data) {
         res.json(data);
-        }else {
-          res.status(404).json({"message": "room not found"});
+      } else {
+        res.status(404).json({ message: "room not found" });
       }
     } catch (err) {
       next(err);
@@ -77,10 +77,10 @@ roomRouter.delete(
     const id = req.params.id;
     const data = await deleteRoom(id);
     try {
-      if(data){
+      if (data) {
         res.json(data);
-        }else {
-          res.status(404).json({"message": "room not found"});
+      } else {
+        res.status(404).json({ message: "room not found" });
       }
     } catch (err) {
       next(err);

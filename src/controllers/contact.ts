@@ -14,7 +14,11 @@ contactRouter.get(
   async (_req: Request, res: Response, next: NextFunction) => {
     const contacts = await getContacts();
     try {
-      res.json(contacts);
+      if (contacts) {
+        res.json(contacts);
+      } else {
+        res.json({ message: "There aren't contacts on the table" });
+      }
     } catch (err) {
       next(err);
     }
@@ -27,10 +31,10 @@ contactRouter.get(
     const id = req.params.id;
     const contact = await getContactsId(id);
     try {
-      if(contact){
+      if (contact) {
         res.json(contact);
-        }else {
-          res.status(404).json({"message": "contact not found"});
+      } else {
+        res.status(404).json({ message: "contact not found" });
       }
     } catch (err) {
       next(err);
@@ -56,10 +60,10 @@ contactRouter.patch(
     const id = req.params.id;
     const data = await patchContact(id, req.body);
     try {
-      if(data){
+      if (data) {
         res.json(data);
-        }else {
-          res.status(404).json({"message": "contact not found"});
+      } else {
+        res.status(404).json({ message: "contact not found" });
       }
     } catch (err) {
       next(err);
@@ -73,11 +77,11 @@ contactRouter.delete(
     const id = req.params.id;
     const data = await deleteContact(id);
     try {
-      if(data){
-      res.json(data);
-      }else {
-        res.status(404).json({"message": "contact not found"});
-    }
+      if (data) {
+        res.json(data);
+      } else {
+        res.status(404).json({ message: "contact not found" });
+      }
     } catch (err) {
       next(err);
     }

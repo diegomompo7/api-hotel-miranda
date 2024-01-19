@@ -1,4 +1,4 @@
-import mongoose, {Document, Schema } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
 export interface IContactCreate {
   userImg: string;
@@ -16,16 +16,20 @@ export interface IContactCreate {
 export type IContact = IContactCreate & Document;
 
 const contactSchema = new Schema({
-  userImg: {type: String, required: true},
-  name: {type: String, required: true},
-  surname: {type: String, required: true},
-  email: {type: String, required: true},
-  phone: {type: Number, required: true},
-  date: {type: String, default: Date.now, required: true},
-  subject: {type: String, required: true},
-  message: {type: String, required: true},
-  stars: {type: Number, required: true},
-  is_archived: {type: Boolean},
-})
+  userImg: { type: String, required: true },
+  name: { type: String, required: true },
+  surname: { type: String, required: true },
+  email: { type: String, required: true },
+  phone: { type: Number, required: true },
+  date: { type: String, default: Date.now, required: true },
+  subject: { type: String, required: true },
+  message: { type: String, required: true },
+  stars: { type: Number, required: true },
+  is_archived: { type: Boolean },
+});
 
-export const Contact = mongoose.model<IContactCreate>("Contact", contactSchema, "contacts");
+export const Contact = mongoose.model<IContactCreate>(
+  "Contact",
+  contactSchema,
+  "contacts"
+);

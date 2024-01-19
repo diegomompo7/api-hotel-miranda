@@ -14,7 +14,11 @@ bookingRouter.get(
   async (_req: Request, res: Response, next: NextFunction) => {
     const bookings = await getBookings();
     try {
-      res.json(bookings);
+      if (bookings) {
+        res.json(bookings);
+      } else {
+        res.json({ message: "There aren't bookings on the table" });
+      }
     } catch (err) {
       next(err);
     }
@@ -27,10 +31,10 @@ bookingRouter.get(
     const id = req.params.id;
     const booking = await getBookingsId(id);
     try {
-      if(booking){
+      if (booking) {
         res.json(booking);
-        }else {
-          res.status(404).json({"message": "booking not found"});
+      } else {
+        res.status(404).json({ message: "booking not found" });
       }
     } catch (err) {
       next(err);
@@ -56,10 +60,10 @@ bookingRouter.patch(
     const id = req.params.id;
     const data = await patchBooking(id, req.body);
     try {
-      if(data){
+      if (data) {
         res.json(data);
-        }else {
-          res.status(404).json({"message": "booking not found"});
+      } else {
+        res.status(404).json({ message: "booking not found" });
       }
     } catch (err) {
       next(err);
@@ -73,10 +77,10 @@ bookingRouter.delete(
     const id = req.params.id;
     const data = await deleteBooking(id);
     try {
-      if(data){
+      if (data) {
         res.json(data);
-        }else {
-          res.status(404).json({"message": "booking not found"});
+      } else {
+        res.status(404).json({ message: "booking not found" });
       }
     } catch (err) {
       next(err);
