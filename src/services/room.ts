@@ -4,8 +4,8 @@ import { sqlQuery } from "../databases/sql";
 
 export const getRooms = async (): Promise<IRoom[]> => {
   const rooms = await sqlQuery(`
-    SELECT photos, id, roomNumber, roomType, amenities, priceNight, status 
-    FROM rooms;`);
+    SELECT photos, rooms.id, roomNumber, roomType, GROUP_CONCAT(amenity) as amenities, priceNight, status 
+    FROM rooms LEFT JOIN amenities ON rooms.id = amenities.room_id GROUP BY rooms.id;`);
 
   return rooms.length !== 0 ? rooms : null;
 };
@@ -15,9 +15,9 @@ export const getRoomsId = async (
 ): Promise<Document<IRoom> | null> => {
   const room = await sqlQuery(
     `
-    SELECT roomType, offer, photos, roomNumber, description, priceNight, discount, cancellation, amenities
-    FROM rooms 
-    WHERE id = ? `,
+    SELECT roomType, offer, photos, roomNumber, description, priceNight, discount, cancellation, GROUP_CONCAT(amenity) as amenities
+    FROM rooms LEFT JOIN amenities ON rooms.id = amenities.room_id
+    WHERE rooms.id = 5 GROUP BY rooms.id;`,
     [id]
   );
 
@@ -30,10 +30,10 @@ export const postRoom = async (
   try {
     const validateData = await schema.validateAsync(roomData);
 
-    return await sqlQuery(
+    const newRoom = await sqlQuery(
       `
-    INSERT INTO rooms (photos, roomType, roomNumber, description, offer, priceNight, discount , cancellation, amenities, status)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    INSERT INTO rooms (photos, roomType, roomNumber, description, offer, priceNight, discount , cancellation, status)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         validateData.photos,
         validateData.roomType,
@@ -43,10 +43,13 @@ export const postRoom = async (
         validateData.priceNight,
         validateData.discount,
         validateData.cancellation,
-        validateData.amenities,
         validateData.status,
       ]
     );
+
+    return newRoom
+
+
   } catch (err: any) {
     return err
   }
