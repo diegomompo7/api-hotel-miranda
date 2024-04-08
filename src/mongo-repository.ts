@@ -6,15 +6,13 @@ dotenv.config();
 
 export async function mongoConnect() {
     try {
-        // Conectarse a la base de datos de Django
-        await mongoose.connect('mongodb://15.188.49.158/admin', {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-        console.log('Conexión exitosa a la base de datos de Django');
+        return await mongoose.connect(process.env.DB_URL);
     } catch (error) {
-        console.error(error);
-        console.log("Error en la conexión, intentando conectar en 5s...");
-        setTimeout(mongoConnect, 5000);
+      console.error(error);
+      console.log("Error en la conexión, intentando conectar en 5s...");
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      setTimeout(mongoConnect, 5000);
+  
+      return null;
     }
 }
