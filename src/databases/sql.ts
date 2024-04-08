@@ -6,7 +6,7 @@ const SQL_PASSWORD: string = process.env.SQL_PASSWORD as string;
 const SQL_DATABASE: string = process.env.SQL_DATABASE as string;
 
 const config: ConnectionOptions = {
-  host: "localhost",
+  host: "15.188.49.158",
   user: SQL_USER,
   password: SQL_PASSWORD,
   database: SQL_DATABASE,
