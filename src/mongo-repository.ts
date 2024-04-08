@@ -12,7 +12,7 @@ export async function mongoConnect() {
       console.log("Error en la conexión, intentando conectar en 5s...");
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       setTimeout(mongoConnect, 5000);
-  
+   
       return null;
     }
 }
