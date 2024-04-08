@@ -33,7 +33,7 @@ jobs:
         JWT_SECRET: ${{secrets.JWT-SECRET}}
           
     - name: Compile typescript
-      run: npm run build 
+      run: npm run build
 
     - run: npm ci
     - name: serverless deploy
